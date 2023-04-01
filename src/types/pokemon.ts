@@ -22,3 +22,13 @@ export type PokemonData = {
   abilities: Array<PokemonAbility>;
   held_items?: Array<PokemonHeldItem>;
 }
+
+export type PokemonsResponse = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Array<{
+    name: string;
+    url: string;
+  }>
+}

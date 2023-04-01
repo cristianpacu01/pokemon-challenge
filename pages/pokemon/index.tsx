@@ -7,65 +7,33 @@ import {
   FormGroup,
   FormLabel,
 } from "@mui/material";
-import axios from "axios";
 import {
-  useCallback,
-  useEffect,
   useState,
   lazy,
   Suspense,
+  useEffect,
 } from "react";
+import PropTypes from 'prop-types';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { pokemonsQueryService, usePokemonData } from '../../src/services';
+import { PokemonsResponse } from '../../src/types'
 
 import styles from "./Pokemon.module.css";
 
 const PokemonCardList = lazy(() => import('../../src/components/Pokemon/PokemonCardList'));
 const PokemonList = lazy(() => import('../../src/components/Pokemon/PokemonList'));
 
-function PokemonHome() {
-  const [pokemons, setPokemons] = useState<Array<any>>([]);
-  const [displayFormat, setDisplayFormat] = useState<string>("Card");
-
-  // Gets the stats for a given pokemon
-  const getPokemonStats = async (pokemon: {
-    name: string;
-    url: string;
-  }): Promise<any> => {
-    const response = await axios.get(pokemon.url);
-    return response.data;
-  };
-
-  // Takes the initial pokemon list and gets the stats for each individual pokemon
-  const buildPokemonList = useCallback(
-    async (
-      initialPokemonWithoutStats: Array<{
-        name: string;
-        url: string;
-      }>
-    ) => {
-      const pokemonList = await Promise.all(
-        initialPokemonWithoutStats.map(
-          async (pokemon: { name: string; url: string }) => {
-            const pokemonWithStats = await getPokemonStats(pokemon);
-            return pokemonWithStats;
-          }
-        )
-      );
-      return pokemonList;
-    },
-    []
-  );
-
-  // gets all the data needed in order to display information
-  const getPokemons = useCallback(async () => {
-    const response = await axios.get("https://pokeapi.co/api/v2/pokemon"); // gets initial pokemon without stats
-    const pokemonList = await buildPokemonList(response.data.results); // runs a request for each pokemon to get their stats
-    console.log({ pokemonList });
-    setPokemons(pokemonList);
-  }, [buildPokemonList]);
+function PokemonHome({ initialResponse }: {
+  initialResponse: PokemonsResponse
+}) {
+  const [isCardsDisplay, setIsCardsDisplay] = useState<boolean>(true);
+  const { pokemons } = usePokemonData(initialResponse.results.map((result) => result.name));
+  const queryClient = useQueryClient();
 
   useEffect(() => {
-    getPokemons();
-  }, [getPokemons]);
+    queryClient.setQueryData(['pokemons', { page: 1 }], initialResponse);
+  }, [initialResponse]);
 
   return (
     <Box className={styles.container}>
@@ -83,18 +51,14 @@ function PokemonHome() {
             <Switch
               defaultChecked
               onChange={() => {
-                if (displayFormat === "Card") {
-                  setDisplayFormat("List");
-                } else {
-                  setDisplayFormat("Card");
-                }
+                setIsCardsDisplay((oldValue) => !oldValue);
               }}
             />
           }
-          label={displayFormat}
+          label={isCardsDisplay ? 'Card' : 'List'}
         />
       </FormGroup>
-      {displayFormat === "Card" ? (
+      {isCardsDisplay ? (
         <Suspense fallback={null}>
           <PokemonCardList pokemons={pokemons} />
         </Suspense>
@@ -105,6 +69,29 @@ function PokemonHome() {
       )}
     </Box>
   );
+}
+
+PokemonHome.propTypes = {
+  initialResponse: PropTypes.shape({
+    count: PropTypes.number.isRequired,
+    next: PropTypes.string,
+    previous: PropTypes.string,
+    results: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        url: PropTypes.string,
+      })
+    )
+  })
+};
+
+export const getServerSideProps = async () => {
+  const response = await pokemonsQueryService.fetch();
+  return {
+    props: {
+      initialResponse: response
+    }
+  };
 }
 
 export default PokemonHome;
