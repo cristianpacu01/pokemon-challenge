@@ -9,7 +9,7 @@ const CardList = ({ pokemons }: {
   pokemons?: Array<PokemonData>
 }) => {
   const renderPokemonCard = useCallback((pokemonData: PokemonData) =>
-    <PokemonCard {...pokemonData} />, [pokemons])
+    <PokemonCard {...pokemonData} key={pokemonData.id} />, [pokemons])
 
   return (
     <Box sx={{ display: "flex", flexWrap: "wrap", overflow: "hidden" }}>

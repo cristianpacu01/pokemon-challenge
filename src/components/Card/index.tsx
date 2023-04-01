@@ -24,7 +24,7 @@ const Card = ({
 }: CardProps) => {
   const createStatListItem = useCallback(
     (stat: PokemonStat) => (
-      <ListItem key={stat.url} sx={{ padding: "2px 4px" }}>
+      <ListItem key={Math.random()} sx={{ padding: "2px 4px" }}>
         <ListItemText
           primary={stat.stat.name}
           secondary={stat.base_stat}
@@ -36,7 +36,7 @@ const Card = ({
 
   const createAbilityListItem = useCallback(
     (ability: PokemonAbility) => (
-      <ListItem key={ability.slot} sx={{ padding: "2px 4px" }}>
+      <ListItem key={Math.random()} sx={{ padding: "2px 4px" }}>
         <ListItemText primary={ability.ability.name} />
       </ListItem>
     ), [abilities]
@@ -44,7 +44,7 @@ const Card = ({
 
   const createHeldItemListItem = useCallback(
     (heldItem: PokemonHeldItem) => (
-      <ListItem key={heldItem.url} sx={{ padding: "2px 4px" }}>
+      <ListItem key={Math.random()} sx={{ padding: "2px 4px" }}>
         <ListItemText primary={heldItem.item.name} />
       </ListItem>
     ), [held_items]
@@ -106,12 +106,18 @@ export const CardPropTypes = {
     PropTypes.shape({
       url: PropTypes.string,
       stat: PropTypes.shape({ name: PropTypes.string }),
-      base_stat: PropTypes.string
+      base_stat: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ])
     })
   ).isRequired,
   abilities: PropTypes.arrayOf(
     PropTypes.shape({
-      slot: PropTypes.string,
+      slot: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
       ability: PropTypes.shape({ name: PropTypes.string }),
     })
   ).isRequired,

@@ -1,11 +1,11 @@
 export type PokemonStat = {
   url: string;
   stat: { name: string };
-  base_stat: string;
+  base_stat: string | number;
 }
 
 export type PokemonAbility = {
-  slot: string;
+  slot: string | number;
   ability: { name: string }
 }
 
