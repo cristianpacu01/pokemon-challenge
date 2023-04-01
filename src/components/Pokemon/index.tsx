@@ -5,24 +5,18 @@ import {
   FormControlLabel,
   FormGroup,
   FormLabel,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
 } from "@mui/material";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 
 import PokemonCardList from '../CardList';
+import PokemonList from '../List';
 
 import styles from "/src/components/Pokemon/Pokemon.module.css";
 
 function Pokemon() {
   const [pokemons, setPokemons] = useState<Array<any>>([]);
   const [displayFormat, setDisplayFormat] = useState<string>("Card");
-  const [tableRows, setTableRows] = useState<Array<any>>([]);
 
   // Gets the stats for a given pokemon
   const getPokemonStats = async (pokemon: {
@@ -66,33 +60,6 @@ function Pokemon() {
     getPokemons();
   }, [getPokemons]);
 
-  // gets all rows for the data table
-  const getDataTableRows = useCallback((): Array<any> => {
-    let rows: Array<any> = [];
-    pokemons.forEach((pokemon) => {
-      const row = {
-        name: pokemon.name,
-        id: pokemon.id,
-        height: pokemon.height,
-        stats: pokemon.stats.map((stat: any) => {
-          return `${stat.stat.name}: ${stat.base_stat}`;
-        }),
-        abilities: pokemon.abilities.map((ability: any) => {
-          return ability.ability.name;
-        }),
-        items: pokemon.held_items.map((held_item: any) => {
-          return held_item.item.name;
-        }),
-      };
-      rows.push(row);
-    });
-    return rows;
-  }, [pokemons]);
-
-  useEffect(() => {
-    setTableRows(getDataTableRows());
-  }, [getDataTableRows, pokemons]);
-
   return (
     <Box className={styles.container}>
       <Typography sx={{ fontSize: "24px", fontWeight: 600 }}>
@@ -123,39 +90,7 @@ function Pokemon() {
       {displayFormat === "Card" ? (
         <PokemonCardList pokemons={pokemons} />
       ) : (
-        <TableContainer>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead sx={{ background: "#EEE" }}>
-              <TableRow>
-                <TableCell>id</TableCell>
-                <TableCell align="right">name</TableCell>
-                <TableCell align="right">height</TableCell>
-                <TableCell align="right">stats</TableCell>
-                <TableCell align="right">abilities</TableCell>
-                <TableCell align="right">items</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {tableRows.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.id}
-                  </TableCell>
-                  <TableCell align="right">{row.name}</TableCell>
-                  <TableCell align="right">{row.height}</TableCell>
-                  <TableCell align="right">{row.stats.join(", ")}</TableCell>
-                  <TableCell align="right">
-                    {row.abilities.join(", ")}
-                  </TableCell>
-                  <TableCell align="right">{row.items.join(", ")}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <PokemonList pokemons={pokemons} />
       )}
     </Box>
   );
