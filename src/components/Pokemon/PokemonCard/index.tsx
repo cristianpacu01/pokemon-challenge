@@ -12,9 +12,9 @@ import {
   PokemonStat,
   PokemonAbility,
   PokemonHeldItem
-} from '../../types';
+} from '../../../types';
 
-const Card = ({
+export const PokemonCard = ({
   name,
   id,
   height,
@@ -129,6 +129,4 @@ export const CardPropTypes = {
   )
 };
 
-Card.propTypes = CardPropTypes;
-
-export default Card;
+PokemonCard.propTypes = CardPropTypes;

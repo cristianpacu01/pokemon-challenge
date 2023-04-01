@@ -9,13 +9,14 @@ import {
   TableRow,
 } from '@mui/material';
 
-import PokemonListItem, {
+import {
+  PokemonListItem,
   PokemonListItemProps,
-} from '../ListItem';
-import { CardPropTypes as PokemonDataPropTypes } from '../Card';
-import { PokemonData } from '../../types';
+} from '../PokemonListItem';
+import { CardPropTypes as PokemonDataPropTypes } from '../PokemonCard';
+import { PokemonData } from '../../../types';
 
-const PokemonList = ({ pokemons }: {
+export const PokemonList = ({ pokemons }: {
   pokemons?: Array<PokemonData>
 }) => {
   const [tableRows, setTableRows] = useState<Array<PokemonListItemProps>>([]);

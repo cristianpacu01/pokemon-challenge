@@ -1,5 +1,12 @@
-import Pokemon from "../src/components/Pokemon";
-
 export default function Home() {
-  return <Pokemon />;
+  return null;
+}
+
+export const getServerSideProps = () => {
+  return {
+    redirect: {
+      destination: '/pokemon'
+    },
+    props: {}
+  }
 }

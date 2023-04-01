@@ -10,7 +10,7 @@ export type PokemonListItemProps = {
   items: Array<string>;
 }
 
-const ListItem = ({
+export const PokemonListItem = ({
   name,
   id,
   height,
@@ -47,6 +47,4 @@ export const ListItemProps = {
   items: PropTypes.arrayOf(PropTypes.string),
 };
 
-ListItem.propTypes = ListItemProps;
-
-export default ListItem
+PokemonListItem.propTypes = ListItemProps;

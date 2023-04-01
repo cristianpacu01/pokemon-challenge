@@ -1,3 +1,4 @@
+
 import {
   Box,
   Typography,
@@ -15,12 +16,12 @@ import {
   Suspense,
 } from "react";
 
-const PokemonCardList = lazy(() => import('../CardList'));
-const PokemonList = lazy(() => import('../List'));
+import styles from "./Pokemon.module.css";
 
-import styles from "/src/components/Pokemon/Pokemon.module.css";
+const PokemonCardList = lazy(() => import('../../src/components/Pokemon/PokemonCardList'));
+const PokemonList = lazy(() => import('../../src/components/Pokemon/PokemonList'));
 
-function Pokemon() {
+function PokemonHome() {
   const [pokemons, setPokemons] = useState<Array<any>>([]);
   const [displayFormat, setDisplayFormat] = useState<string>("Card");
 
@@ -106,4 +107,4 @@ function Pokemon() {
   );
 }
 
-export default Pokemon;
+export default PokemonHome;
