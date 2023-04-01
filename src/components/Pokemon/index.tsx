@@ -7,10 +7,16 @@ import {
   FormLabel,
 } from "@mui/material";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  lazy,
+  Suspense,
+} from "react";
 
-import PokemonCardList from '../CardList';
-import PokemonList from '../List';
+const PokemonCardList = lazy(() => import('../CardList'));
+const PokemonList = lazy(() => import('../List'));
 
 import styles from "/src/components/Pokemon/Pokemon.module.css";
 
@@ -88,9 +94,13 @@ function Pokemon() {
         />
       </FormGroup>
       {displayFormat === "Card" ? (
-        <PokemonCardList pokemons={pokemons} />
+        <Suspense fallback={null}>
+          <PokemonCardList pokemons={pokemons} />
+        </Suspense>
       ) : (
-        <PokemonList pokemons={pokemons} />
+        <Suspense fallback={null}>
+          <PokemonList pokemons={pokemons} />
+        </Suspense>
       )}
     </Box>
   );
