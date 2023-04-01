@@ -1,9 +1,6 @@
 import {
   Box,
   Typography,
-  List,
-  ListItem,
-  ListItemText,
   Switch,
   FormControlLabel,
   FormGroup,
@@ -17,6 +14,9 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
+
+import PokemonCardList from '../CardList';
+
 import styles from "/src/components/Pokemon/Pokemon.module.css";
 
 function Pokemon() {
@@ -121,72 +121,7 @@ function Pokemon() {
         />
       </FormGroup>
       {displayFormat === "Card" ? (
-        <Box sx={{ display: "flex", flexWrap: "wrap", overflowY: "hidden" }}>
-          {pokemons &&
-            pokemons.length > 0 &&
-            pokemons.map((pokemon) => {
-              return (
-                <Box
-                  data-testid="POKE_CARD"
-                  role="contentinfo"
-                  key={pokemon.name}
-                  sx={{
-                    flex: "1 0 20%", // ensures 4 items per row
-                    minHeight: "300px",
-                    maxHeight: "300px",
-                    margin: "5px",
-                    padding: "10px",
-                    display: "flex",
-                    flexDirection: "column",
-                    border: "1px solid black",
-                    backgroundColor: "#EEE",
-                    overflowY: "scroll",
-                  }}
-                >
-                  <Typography sx={{ fontSize: "20px", fontWeight: 600 }}>
-                    {pokemon.name}
-                  </Typography>
-                  <Typography>ID: {pokemon.id}</Typography>
-                  <Typography>Height: {pokemon.height}</Typography>
-                  <Typography>Stats:</Typography>
-                  <List sx={{ paddingTop: "2px", paddingBottom: "2px" }}>
-                    {pokemon.stats.map((stat: any) => (
-                      <ListItem key={stat.url} sx={{ padding: "2px 4px" }}>
-                        <ListItemText
-                          primary={stat.stat.name}
-                          secondary={stat.base_stat}
-                          sx={{ margin: 0, fontSize: "4px" }}
-                        />
-                      </ListItem>
-                    ))}
-                  </List>
-                  <Typography>Abilities:</Typography>
-                  <List sx={{ paddingTop: "2px", paddingBottom: "2px" }}>
-                    {pokemon.abilities.map((ability: any) => (
-                      <ListItem key={ability.slot} sx={{ padding: "2px 4px" }}>
-                        <ListItemText primary={ability.ability.name} />
-                      </ListItem>
-                    ))}
-                  </List>
-                  {pokemon.held_items.length > 0 && (
-                    <>
-                      <Typography>Items:</Typography>
-                      <List sx={{ paddingTop: "2px", paddingBottom: "2px" }}>
-                        {pokemon.held_items.map((held_item: any) => (
-                          <ListItem
-                            key={held_item.url}
-                            sx={{ padding: "2px 4px" }}
-                          >
-                            <ListItemText primary={held_item.item.name} />
-                          </ListItem>
-                        ))}
-                      </List>
-                    </>
-                  )}
-                </Box>
-              );
-            })}
-        </Box>
+        <PokemonCardList pokemons={pokemons} />
       ) : (
         <TableContainer>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
