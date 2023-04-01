@@ -7,31 +7,12 @@ import {
 } from "@mui/material";
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
-
-type PokemonStat = {
-  url: string;
-  stat: { name: string };
-  base_stat: string;
-}
-
-type PokemonAbility = {
-  slot: string;
-  ability: { name: string }
-}
-
-type PokemonHeldItem = {
-  url: string;
-  item: { name: string };
-}
-
-export type CardProps = {
-  name: string;
-  id: number | string;
-  height: number | string;
-  stats: Array<PokemonStat>;
-  abilities: Array<PokemonAbility>;
-  held_items?: Array<PokemonHeldItem>;
-}
+import {
+  PokemonData as CardProps,
+  PokemonStat,
+  PokemonAbility,
+  PokemonHeldItem
+} from '../../types';
 
 const Card = ({
   name,
