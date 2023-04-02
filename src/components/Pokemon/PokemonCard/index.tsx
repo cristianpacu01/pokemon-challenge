@@ -7,6 +7,8 @@ import {
 } from "@mui/material";
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import {
   PokemonData as CardProps,
   PokemonStat,
@@ -22,6 +24,8 @@ export const PokemonCard = ({
   abilities,
   held_items,
 }: CardProps) => {
+  const { asPath } = useRouter();
+
   const createStatListItem = useCallback(
     (stat: PokemonStat) => (
       <ListItem key={Math.random()} sx={{ padding: "2px 4px" }}>
@@ -67,27 +71,29 @@ export const PokemonCard = ({
         overflowY: "scroll",
       }}
     >
-      <Typography sx={{ fontSize: "20px", fontWeight: 600 }}>
-        {name}
-      </Typography>
-      <Typography>ID: {id}</Typography>
-      <Typography>Height: {height}</Typography>
-      <Typography>Stats:</Typography>
-      <List sx={{ paddingTop: "2px", paddingBottom: "2px" }}>
-        {stats.map(createStatListItem)}
-      </List>
-      <Typography>Abilities:</Typography>
-      <List sx={{ paddingTop: "2px", paddingBottom: "2px" }}>
-        {abilities.map(createAbilityListItem)}
-      </List>
-      {!!held_items?.length && (
-        <>
-          <Typography>Items:</Typography>
-          <List sx={{ paddingTop: "2px", paddingBottom: "2px" }}>
-            {held_items.map(createHeldItemListItem)}
-          </List>
-        </>
-      )}
+      <Link href={`${asPath}/${name}`}>
+        <Typography sx={{ fontSize: "20px", fontWeight: 600 }}>
+          {name}
+        </Typography>
+        <Typography>ID: {id}</Typography>
+        <Typography>Height: {height}</Typography>
+        <Typography>Stats:</Typography>
+        <List sx={{ paddingTop: "2px", paddingBottom: "2px" }}>
+          {stats.map(createStatListItem)}
+        </List>
+        <Typography>Abilities:</Typography>
+        <List sx={{ paddingTop: "2px", paddingBottom: "2px" }}>
+          {abilities.map(createAbilityListItem)}
+        </List>
+        {!!held_items?.length && (
+          <>
+            <Typography>Items:</Typography>
+            <List sx={{ paddingTop: "2px", paddingBottom: "2px" }}>
+              {held_items.map(createHeldItemListItem)}
+            </List>
+          </>
+        )}
+      </Link>
     </Box>
   )
 }

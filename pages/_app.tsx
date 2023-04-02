@@ -8,7 +8,8 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 2,
-      useErrorBoundary: false
+      useErrorBoundary: false,
+      refetchOnWindowFocus: false
     }
   }
 });

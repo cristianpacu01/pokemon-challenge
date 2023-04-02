@@ -16,19 +16,22 @@ import {
 import PropTypes from 'prop-types';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { pokemonsQueryService, usePokemonData } from '../../src/services';
-import { PokemonsResponse } from '../../src/types'
+import { pokemonsQueryService, usePokemonData } from 'src/services';
+import { PokemonsResponse } from 'src/types'
 
 import styles from "./Pokemon.module.css";
 
-const PokemonCardList = lazy(() => import('../../src/components/Pokemon/PokemonCardList'));
-const PokemonList = lazy(() => import('../../src/components/Pokemon/PokemonList'));
+const PokemonCardList = lazy(() => import('src/components/Pokemon/PokemonCardList'));
+const PokemonList = lazy(() => import('src/components/Pokemon/PokemonList'));
 
 function PokemonHome({ initialResponse }: {
   initialResponse: PokemonsResponse
 }) {
   const [isCardsDisplay, setIsCardsDisplay] = useState<boolean>(true);
-  const { pokemons } = usePokemonData(initialResponse.results.map((result) => result.name));
+  const { pokemons } = usePokemonData({
+    pokemonNames: initialResponse.results.map((result) => result.name),
+    isReady: !!initialResponse.results.length
+  });
   const queryClient = useQueryClient();
 
   useEffect(() => {

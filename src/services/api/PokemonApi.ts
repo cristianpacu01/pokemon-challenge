@@ -18,7 +18,8 @@ class PokemonApi extends BaseAPI {
     return response.json();
   }
 
-  public fetchPokemonData = async ({ pokemonName }: FetchSinglePokemonProps): Promise<PokemonData> => {
+  public fetchPokemonData = async ({ pokemonName }: FetchSinglePokemonProps): Promise<PokemonData | void> => {
+    if (!pokemonName) return;
     const response = await this.request({
       method: 'GET',
       path: '/pokemon/' + pokemonName,

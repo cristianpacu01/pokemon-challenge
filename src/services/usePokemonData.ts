@@ -3,12 +3,6 @@ import { useQueries } from "@tanstack/react-query";
 import { pokemonApi } from "./api";
 import { PokemonsResponse, PokemonData } from '../types';
 
-type PokemonDataProps = {
-  isFetchingPokemons: boolean;
-  isLoadingPokemons: boolean;
-  response: PokemonsResponse | undefined;
-}
-
 export const pokemonsQueryService = ({
   fetch: async (): Promise<PokemonsResponse> => {
     try {
@@ -23,7 +17,7 @@ export const pokemonsQueryService = ({
       )
     }
   },
-  fetchOne: async (pokemonName: string): Promise<PokemonData> => {
+  fetchOne: async (pokemonName: string): Promise<PokemonData | void>=> {
     try {
       const pokemon = await pokemonApi.fetchPokemonData({ pokemonName });
       return pokemon
@@ -38,15 +32,22 @@ export const pokemonsQueryService = ({
   }
 })
 
-export const usePokemonData = (pokemonNames: Array<string>): {
+export const usePokemonData = ({
+  pokemonNames,
+  isReady,
+}: {
+  pokemonNames: Array<string>,
+  isReady: boolean
+}): {
   pokemons: Array<PokemonData>
 } => {
   const QUERY_KEY = 'pokemon';
   const queries = useQueries({
     queries: pokemonNames.map(name => ({
       queryKey: [QUERY_KEY, name],
-      queryFn: () => pokemonsQueryService.fetchOne(name)
-    }))
+      queryFn: () => pokemonsQueryService.fetchOne(name),
+      enabled: isReady
+    })),
   })
   const pokemons = queries
     .filter(query => query.isSuccess)
