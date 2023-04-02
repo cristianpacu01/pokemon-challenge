@@ -1,7 +1,7 @@
 import { useQueries } from "@tanstack/react-query";
 
 import { pokemonApi } from "./api";
-import { PokemonsResponse, PokemonData } from '../types';
+import { PokemonsResponse, PokemonData } from 'src/types';
 
 export const pokemonsQueryService = ({
   fetch: async (): Promise<PokemonsResponse> => {

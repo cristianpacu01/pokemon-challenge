@@ -12,9 +12,9 @@ import {
 import {
   PokemonListItem,
   PokemonListItemProps,
-} from '../PokemonListItem';
-import { CardPropTypes as PokemonDataPropTypes } from '../PokemonCard';
-import { PokemonData } from '../../../types';
+} from 'src/components/Pokemon/PokemonListItem';
+import { CardPropTypes as PokemonDataPropTypes } from 'src/components/Pokemon/PokemonCard';
+import { PokemonData } from 'src/types';
 
 export const PokemonList = ({ pokemons }: {
   pokemons?: Array<PokemonData>

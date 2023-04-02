@@ -14,7 +14,7 @@ import {
   PokemonStat,
   PokemonAbility,
   PokemonHeldItem
-} from '../../../types';
+} from 'src/types';
 
 export const PokemonCard = ({
   name,

@@ -1,5 +1,5 @@
 import BaseAPI from "./BaseApi";
-import { PokemonsResponse, PokemonData } from "../../types";
+import { PokemonsResponse, PokemonData } from "src/types";
 
 export type ListPokemonsRequestParams = {
 }

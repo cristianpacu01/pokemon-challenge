@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 import { useCallback } from 'react';
 
-import { CardPropTypes, PokemonCard } from '../PokemonCard';
-import { PokemonData } from '../../../types'
+import { CardPropTypes, PokemonCard } from 'src/components/Pokemon/PokemonCard';
+import { PokemonData } from 'src/types'
 
 export const PokemonCardList = ({ pokemons }: {
   pokemons?: Array<PokemonData>

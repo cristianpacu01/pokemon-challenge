@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { Box, Button, Typography } from '@mui/material';
 import Image from 'next/image'

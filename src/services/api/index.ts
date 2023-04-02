@@ -1,4 +1,4 @@
-import { ApiConfiguration } from '../../types';
+import { ApiConfiguration } from 'src/types';
 import PokemonApi from './PokemonApi';
 
 const configParams: ApiConfiguration = {

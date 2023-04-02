@@ -5,7 +5,7 @@ import {
   RequestOptions,
   HTTPMethod,
   HTTPQuery,
-} from '../../types';
+} from 'src/types';
 
 type FetchParams = {
   requestConfig: RequestConfig;
