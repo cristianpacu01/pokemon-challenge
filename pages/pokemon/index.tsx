@@ -7,22 +7,16 @@ import {
   FormGroup,
   FormLabel,
 } from "@mui/material";
-import {
-  useState,
-  lazy,
-  Suspense,
-  useEffect,
-} from "react";
+import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import { useQueryClient } from '@tanstack/react-query';
 
+import PokemonCardList from 'src/components/Pokemon/PokemonCardList';
+import PokemonList from 'src/components/Pokemon/PokemonList';
 import { pokemonsQueryService, usePokemonData } from 'src/services';
 import { PokemonsResponse } from 'src/types'
 
 import styles from "./Pokemon.module.css";
-
-const PokemonCardList = lazy(() => import('src/components/Pokemon/PokemonCardList'));
-const PokemonList = lazy(() => import('src/components/Pokemon/PokemonList'));
 
 function PokemonHome({ initialResponse }: {
   initialResponse: PokemonsResponse
@@ -62,13 +56,9 @@ function PokemonHome({ initialResponse }: {
         />
       </FormGroup>
       {isCardsDisplay ? (
-        <Suspense fallback={null}>
-          <PokemonCardList pokemons={pokemons} />
-        </Suspense>
+        <PokemonCardList pokemons={pokemons} />
       ) : (
-        <Suspense fallback={null}>
-          <PokemonList pokemons={pokemons} />
-        </Suspense>
+        <PokemonList pokemons={pokemons} />
       )}
     </Box>
   );
